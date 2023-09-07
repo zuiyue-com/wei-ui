@@ -8,3 +8,4 @@ homepage = "https://github.com/zuiyue-com/wei-ui"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
+single-instance = "0.3"
