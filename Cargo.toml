@@ -8,6 +8,8 @@ homepage = "https://github.com/zuiyue-com/wei-ui"
 license = "MIT OR Apache-2.0"
 
 [dependencies]
+wei-env = "0.2.10"
 single-instance = "0.3"
 wry = "0.32.0"
 image = "0.24.7"
+winapi = { version = "0.3", features = ["winbase","tlhelp32","handleapi","wincon","winuser","psapi"] }

@@ -10,6 +10,7 @@ use wry::{
 };
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    wei_env::bin_init("wei-ui");
     let instance = single_instance::SingleInstance::new("wei-ui")?;
     if !instance.is_single() { 
         std::process::exit(1);
@@ -40,9 +41,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build(&event_loop)?;
 
     // 判断当前目录有没有main.rs,如果存在则启动本地服务
-    let mut url = "https://client.zuiyue.com";
     let mut path = std::env::current_dir()?;
+    let file_path = format!("file://{}/dist/index.html", path.display());
+    let mut url = file_path.as_str();
     path.push("./src/main.rs");
+    // 获取当前目录
     if path.exists() {
         url = "http://localhost:15001";
     }
@@ -59,7 +62,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Event::WindowEvent {
           event: WindowEvent::CloseRequested,
           ..
-        } => *control_flow = ControlFlow::Exit,
+        } => {
+          hide("wei-ui", true);
+          // *control_flow = ControlFlow::Exit,
+        }
         _ => (),
       }
     });
@@ -75,4 +81,111 @@ fn load_icon() -> Option<Icon> {
     let (width, height) = image.dimensions();
     let rgba = image.to_rgba8();
     Icon::from_rgba(rgba.into_raw(), width, height).ok()
+}
+
+// 下面的都是windows代码，请用一个大点的框把他们包起来
+use std::path::Path;
+use std::ffi::OsString;
+use std::ptr::null_mut;
+use winapi::shared::minwindef::LPARAM;
+use winapi::shared::minwindef::LPDWORD;
+use winapi::shared::minwindef::DWORD;
+use std::os::windows::ffi::OsStringExt;
+use winapi::um::winuser::{EnumWindows, ShowWindow, SW_HIDE, SW_SHOW};
+use winapi::um::winuser::{GetWindowThreadProcessId, IsWindowVisible};
+use winapi::shared::windef::HWND;
+use winapi::shared::minwindef::BOOL;
+use winapi::um::tlhelp32::{CreateToolhelp32Snapshot, Process32First, Process32Next, PROCESSENTRY32, TH32CS_SNAPPROCESS};
+use winapi::um::handleapi::CloseHandle;
+use winapi::um::psapi::GetModuleFileNameExW;
+use winapi::um::winnt::PROCESS_QUERY_INFORMATION;
+use winapi::um::processthreadsapi::OpenProcess;
+
+pub fn hide(process_file_name: &str, status: bool) -> bool {
+    let process_file_name = process_file_name.to_owned() + ".exe";
+    unsafe {
+        let snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+        if snapshot.is_null() { return false; }
+
+        let mut process_entry = PROCESSENTRY32 {
+            dwSize: std::mem::size_of::<PROCESSENTRY32>() as u32,
+            cntUsage: 0,
+            th32ProcessID: 0,
+            th32DefaultHeapID: 0,
+            th32ModuleID: 0,
+            cntThreads: 0,
+            th32ParentProcessID: 0,
+            pcPriClassBase: 0,
+            dwFlags: 0,
+            szExeFile: [0; 260],
+        };
+
+        if Process32First(snapshot, &mut process_entry) == 0 {
+            CloseHandle(snapshot);
+            return false;
+        }
+
+        loop {
+            let h_process = OpenProcess(PROCESS_QUERY_INFORMATION, 0, process_entry.th32ProcessID);
+            if !h_process.is_null() {
+                let mut buffer = [0u16; 260];
+                let result = GetModuleFileNameExW(h_process, null_mut(), buffer.as_mut_ptr(), buffer.len() as u32);
+                if result != 0 {
+                    let len = buffer.iter().position(|&x| x == 0).unwrap_or(buffer.len());
+                    let wide_string: &[u16] = std::slice::from_raw_parts(buffer.as_ptr() as *const u16, len);
+                    let current_proc_file_path = OsString::from_wide(wide_string).to_string_lossy().into_owned();
+                    let current_proc_file_name = Path::new(&current_proc_file_path).file_name().unwrap().to_str().unwrap();
+
+                    if current_proc_file_name == process_file_name {
+                        hide_process_windows(process_entry.th32ProcessID, status);
+                        CloseHandle(h_process);
+                        CloseHandle(snapshot);
+                    }
+                }
+                CloseHandle(h_process);
+            }
+
+            if Process32Next(snapshot, &mut process_entry) == 0 { break; }
+        }
+
+        CloseHandle(snapshot);
+    }
+
+    false
+}
+
+
+unsafe extern "system" fn enum_windows_callback_hide(hwnd: HWND, process_id: LPARAM) -> BOOL {
+  let mut window_process_id: DWORD = 0;
+  GetWindowThreadProcessId(hwnd, &mut window_process_id as LPDWORD);
+
+  if window_process_id == process_id as DWORD && IsWindowVisible(hwnd) != 0 {
+      ShowWindow(hwnd, SW_HIDE);
+      return 0;
+  }
+
+  return 1;
+}
+
+
+unsafe extern "system" fn enum_windows_callback_show(hwnd: HWND, process_id: LPARAM) -> BOOL {
+  let mut window_process_id: DWORD = 0;
+  GetWindowThreadProcessId(hwnd, &mut window_process_id as LPDWORD);
+
+  if window_process_id == process_id as DWORD && IsWindowVisible(hwnd) != 0 {
+      ShowWindow(hwnd, SW_SHOW);
+      return 0;
+  }
+
+  return 1;
+}
+
+fn hide_process_windows(process_id: u32, status: bool) {
+  unsafe {
+    if status == true {
+      EnumWindows(Some(enum_windows_callback_hide), process_id as LPARAM);
+    } else {
+      EnumWindows(Some(enum_windows_callback_show), process_id as LPARAM);
+    }
+  }
 }
