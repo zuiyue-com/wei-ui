@@ -1,19 +1,20 @@
+use wry::{
+  application::{
+    event::{Event, StartCause, WindowEvent},
+    event_loop::{ControlFlow, EventLoop},
+    window::{Icon, WindowBuilder},
+    dpi::LogicalSize,
+    dpi::PhysicalPosition,
+  },
+  webview::WebViewBuilder,
+};
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let instance = single_instance::SingleInstance::new("wei-ui")?;
     if !instance.is_single() { 
         std::process::exit(1);
     };
 
-    use wry::{
-      application::{
-        event::{Event, StartCause, WindowEvent},
-        event_loop::{ControlFlow, EventLoop},
-        window::WindowBuilder,
-        dpi::LogicalSize,
-        dpi::PhysicalPosition,
-      },
-      webview::WebViewBuilder,
-    };
     let event_loop = EventLoop::new();
     let monitor = event_loop.primary_monitor().expect("No primary monitor found");
     let max_width = 2048.0;
@@ -26,6 +27,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ((monitor_size.height as f64 / scale_factor) * 0.8).min(max_heigh),
     );
     let window = WindowBuilder::new()
+        .with_title("Wei")
+        .with_window_icon(load_icon())
         .with_inner_size(window_size)
         .with_max_inner_size(LogicalSize::new(max_width, max_heigh))
         .with_position(PhysicalPosition::new(
@@ -60,4 +63,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         _ => (),
       }
     });
+}
+
+use std::io::Read;
+use image::GenericImageView;
+fn load_icon() -> Option<Icon> {
+    let mut icon_file = std::fs::File::open("../wei/res/wei.png").expect("Failed to open icon file");
+    let mut buffer = Vec::new();
+    icon_file.read_to_end(&mut buffer).expect("Failed to read icon file");
+    let image = image::load_from_memory(&buffer).expect("Failed to load image data");
+    let (width, height) = image.dimensions();
+    let rgba = image.to_rgba8();
+    Icon::from_rgba(rgba.into_raw(), width, height).ok()
 }

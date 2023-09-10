@@ -10,3 +10,4 @@ license = "MIT OR Apache-2.0"
 [dependencies]
 single-instance = "0.3"
 wry = "0.32.0"
+image = "0.24.7"
