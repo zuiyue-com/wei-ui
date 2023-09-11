@@ -47,7 +47,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     path.push("./src/main.rs");
     // 获取当前目录
     if path.exists() {
-        url = "http://localhost:15001";
+        url = "http://localhost:15000";
     }
 
     let _webview = WebViewBuilder::new(window)?
