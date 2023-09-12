@@ -17,7 +17,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         std::process::exit(1);
     };
 
-    let server_url = check_server().await;
+    let server_address = check_server().await;
 
     let event_loop = EventLoop::new();
     let monitor = event_loop.primary_monitor().expect("No primary monitor found");
@@ -45,12 +45,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 判断当前目录有没有main.rs,如果存在则启动本地服务
     let mut path = std::env::current_dir()?;
-    let file_path = format!("file://{}/dist/index.html#/index?server_url={}", path.display(), server_url);
+    let file_path = format!("file://{}/dist/index.html?server_address={}", path.display(), server_address);
     let mut url = file_path;
     path.push("./src/main.rs");
     // 获取当前目录
     if path.exists() {
-        url = "http://localhost:15000/#/index".to_owned() + "?server_url=" + server_url.as_str();
+        url = "http://localhost:15001/".to_owned() + "?server_address=" + server_address.as_str();
     }
 
     println!("url: {}", url);
