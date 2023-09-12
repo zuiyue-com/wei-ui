@@ -9,12 +9,15 @@ use wry::{
   webview::WebViewBuilder,
 };
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     wei_env::bin_init("wei-ui");
     let instance = single_instance::SingleInstance::new("wei-ui")?;
     if !instance.is_single() { 
         std::process::exit(1);
     };
+
+    let server_url = check_server().await;
 
     let event_loop = EventLoop::new();
     let monitor = event_loop.primary_monitor().expect("No primary monitor found");
@@ -42,16 +45,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 判断当前目录有没有main.rs,如果存在则启动本地服务
     let mut path = std::env::current_dir()?;
-    let file_path = format!("file://{}/dist/index.html", path.display());
-    let mut url = file_path.as_str();
+    let file_path = format!("file://{}/dist/index.html#/index?server_url={}", path.display(), server_url);
+    let mut url = file_path;
     path.push("./src/main.rs");
     // 获取当前目录
     if path.exists() {
-        url = "http://localhost:15000";
+        url = "http://localhost:15000/#/index".to_owned() + "?server_url=" + server_url.as_str();
     }
 
+    println!("url: {}", url);
+
     let _webview = WebViewBuilder::new(window)?
-      .with_url(url)?
+      .with_url(&url)?
       .build()?;
   
     event_loop.run(move |event, _, control_flow| {
@@ -69,6 +74,44 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         _ => (),
       }
     });
+}
+
+async fn check_server() -> String {
+    loop {
+        let file = wei_env::home_dir().unwrap() + "server.dat";
+        let port = match std::fs::read_to_string(file) {
+            Ok(data) => data,
+            Err(_) => "1115".to_string()
+        };
+        let url = format!("http://127.0.0.1:{}", port);
+        
+        match request_server(&url).await.as_str() {
+            "wei-server" => {
+                println!("访问本地服务器成功！");
+                return url.replace("http://", "");
+            }
+            _ => {
+                println!("访问本地服务器 {} 失败", url);
+                std::thread::sleep(tokio::time::Duration::from_millis(500));
+            }
+        }
+    };
+}
+
+async fn request_server(url: &str) -> String {
+    let response = match reqwest::get(url).await {
+        Ok(response) => response,
+        Err(_) => return "".to_string(),
+    };
+
+    if response.status().is_success() {
+        match response.text().await {
+            Ok(body) => return body,
+            Err(_) => return "".to_string(),
+        };
+    } else {
+        return "".to_string();
+    }
 }
 
 use std::io::Read;
