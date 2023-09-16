@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate wei_log;
+
 use wry::{
   application::{
     event::{Event, StartCause, WindowEvent},
@@ -17,6 +20,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         std::process::exit(1);
     };
 
+    info!("检测服务可用性");
     let server_address = check_server().await;
 
     let event_loop = EventLoop::new();
@@ -24,13 +28,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let max_width = 2048.0;
     let max_heigh = 1536.0;
     
+    info!("启动窗口,最大宽度: {}, 最大高度: {}", max_width, max_heigh);
     let monitor_size = monitor.size();
+    info!("屏幕大小: {:?}", monitor_size);
     let scale_factor = monitor.scale_factor();
+    info!("缩放比例: {}", scale_factor);
     let window_size = LogicalSize::new(
         ((monitor_size.width as f64 / scale_factor) * 0.8).min(max_width),
         ((monitor_size.height as f64 / scale_factor) * 0.8).min(max_heigh),
     );
-    let window = WindowBuilder::new()
+    info!("窗口大小: {:?}", window_size);
+
+    let window = match WindowBuilder::new()
         .with_title("Wei")
         .with_window_icon(load_icon())
         .with_inner_size(window_size)
@@ -41,24 +50,37 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         ))
         // .with_fullscreen(Some(wry::application::window::Fullscreen::Borderless(monitor))) // 设置窗口为全屏
         // .with_maximized(true) // 最大化窗口
-        .build(&event_loop)?;
+        .build(&event_loop) {
+            Ok(window) => {
+                info!("启动窗口成功");
+                window
+            }
+            Err(err) => {
+                info!("启动窗口失败,原因：{}", err);
+                return Ok(());
+        }
+    };
 
     // 判断当前目录有没有main.rs,如果存在则启动本地服务
+    info!("判断打包环境");
     let mut path = std::env::current_dir()?;
     let file_path = format!("file://{}/dist/index.html?server_address={}", path.display(), server_address);
-    let mut url = file_path;
+    let mut url = file_path.clone();
+    info!("file_path: {}", file_path);
+
     path.push("./src/main.rs");
     // 获取当前目录
     if path.exists() {
         url = "http://localhost:15001/".to_owned() + "?server_address=" + server_address.as_str();
     }
 
-    println!("url: {}", url);
+    info!("url: {}", url);
 
     let _webview = WebViewBuilder::new(window)?
       .with_url(&url)?
       .build()?;
   
+    info!("启动成功,等待信号");
     event_loop.run(move |event, _, control_flow| {
       *control_flow = ControlFlow::Wait;
   
@@ -87,11 +109,11 @@ async fn check_server() -> String {
         
         match request_server(&url).await.as_str() {
             "wei-server" => {
-                println!("访问本地服务器成功！");
+                info!("访问本地服务器成功！");
                 return url.replace("http://", "");
             }
             _ => {
-                println!("访问本地服务器 {} 失败", url);
+                info!("访问本地服务器 {} 失败", url);
                 std::thread::sleep(tokio::time::Duration::from_millis(500));
             }
         }
@@ -117,7 +139,16 @@ async fn request_server(url: &str) -> String {
 use std::io::Read;
 use image::GenericImageView;
 fn load_icon() -> Option<Icon> {
-    let mut icon_file = std::fs::File::open("../wei/res/wei.png").expect("Failed to open icon file");
+    // 如果 ../wei/res/wei.png 存在
+    let mut png_path = "../wei/res/wei.png";
+    let path = std::path::Path::new(png_path.clone());
+    if !path.exists() {
+        png_path = "./wei.png";
+    }
+    let mut icon_file = match std::fs::File::open(png_path) {
+        Ok(file) => file,
+        Err(_) => return None,
+    };
     let mut buffer = Vec::new();
     icon_file.read_to_end(&mut buffer).expect("Failed to read icon file");
     let image = image::load_from_memory(&buffer).expect("Failed to load image data");
