@@ -6,8 +6,8 @@ use wry::{
     event::{Event, StartCause, WindowEvent},
     event_loop::{ControlFlow, EventLoop},
     window::{Icon, WindowBuilder},
-    dpi::LogicalSize,
-    dpi::PhysicalPosition,
+    // dpi::LogicalSize,
+    // dpi::PhysicalPosition,
   },
   webview::WebViewBuilder,
 };
@@ -24,32 +24,33 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let server_address = check_server().await;
 
     let event_loop = EventLoop::new();
-    let monitor = event_loop.primary_monitor().expect("No primary monitor found");
-    let max_width = 2048.0;
-    let max_heigh = 1536.0;
+    // let monitor = event_loop.primary_monitor().expect("No primary monitor found");
+    // let max_width = 2048.0;
+    // let max_heigh = 1536.0;
     
-    info!("启动窗口,最大宽度: {}, 最大高度: {}", max_width, max_heigh);
-    let monitor_size = monitor.size();
-    info!("屏幕大小: {:?}", monitor_size);
-    let scale_factor = monitor.scale_factor();
-    info!("缩放比例: {}", scale_factor);
-    let window_size = LogicalSize::new(
-        ((monitor_size.width as f64 / scale_factor) * 0.8).min(max_width),
-        ((monitor_size.height as f64 / scale_factor) * 0.8).min(max_heigh),
-    );
-    info!("窗口大小: {:?}", window_size);
+    // info!("启动窗口,最大宽度: {}, 最大高度: {}", max_width, max_heigh);
+    // let monitor_size = monitor.size();
+    // info!("屏幕大小: {:?}", monitor_size);
+    // let scale_factor = monitor.scale_factor();
+    // info!("缩放比例: {}", scale_factor);
+    // let window_size = LogicalSize::new(
+    //     ((monitor_size.width as f64 / scale_factor) * 0.8).min(max_width),
+    //     ((monitor_size.height as f64 / scale_factor) * 0.8).min(max_heigh),
+    // );
+    // info!("窗口大小: {:?}", window_size);
 
     let window = match WindowBuilder::new()
         .with_title("Wei")
+        // .with_always_on_top(true)  // 设置窗口始终在最前面
         .with_window_icon(load_icon())
-        .with_inner_size(window_size)
-        .with_max_inner_size(LogicalSize::new(max_width, max_heigh))
-        .with_position(PhysicalPosition::new(
-            ((monitor_size.width as f64 - window_size.width * scale_factor) / 2.0).round() as i32,
-            ((monitor_size.height as f64 - window_size.height * scale_factor - 100.0) / 2.0).round() as i32,
-        ))
+        // .with_inner_size(window_size)
+        // .with_max_inner_size(LogicalSize::new(max_width, max_heigh))
+        // .with_position(PhysicalPosition::new(
+        //     ((monitor_size.width as f64 - window_size.width * scale_factor) / 2.0).round() as i32,
+        //     ((monitor_size.height as f64 - window_size.height * scale_factor - 100.0) / 2.0).round() as i32,
+        // ))
         // .with_fullscreen(Some(wry::application::window::Fullscreen::Borderless(monitor))) // 设置窗口为全屏
-        // .with_maximized(true) // 最大化窗口
+        .with_maximized(true) // 最大化窗口
         .build(&event_loop) {
             Ok(window) => {
                 info!("启动窗口成功");
@@ -87,11 +88,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
       match event {
         Event::NewEvents(StartCause::Init) => (),
         Event::WindowEvent {
-          event: WindowEvent::CloseRequested,
-          ..
+            event: WindowEvent::CloseRequested,
+            ..
         } => {
-          hide("wei-ui", true);
-          // *control_flow = ControlFlow::Exit,
+            _webview.load_url("about:blank");
+            hide("wei-ui", true);
+            // *control_flow = ControlFlow::Exit,
         }
         _ => (),
       }
