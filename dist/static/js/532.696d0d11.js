@@ -1,0 +1,6 @@
+/*!
+ *  build: Vue  Admin Plus
+ *  copyright: vue-admin-beautiful.com
+ *  time: 2023-09-28 17:16:01
+ */
+"use strict";(self["webpackChunkadmin_plus"]=self["webpackChunkadmin_plus"]||[]).push([[532],{90532:function(e,n,t){t.r(n),t.d(n,{default:function(){return p}});var u=t(87692),l=(t(3241),t(45393),t(22411),t(66252)),a=t(2262),o={__name:"index",props:{zftype:{type:Number,default:2}},emits:["update:zftype"],setup(e,{emit:n}){const t=e,o=(0,a.iH)(t.zftype);function d(e){n("update:zftype",e)}return(e,n)=>{const t=(0,l.up)("vab-icon"),i=u.dn,p=u.KD;return(0,l.wg)(),(0,l.j4)(p,{modelValue:(0,a.SU)(o),"onUpdate:modelValue":n[0]||(n[0]=e=>(0,a.dq)(o)?o.value=e:null),modelModifiers:{number:!0},onChange:d},{default:(0,l.w5)((()=>[(0,l.Wm)(i,{label:2},{default:(0,l.w5)((()=>[(0,l.Wm)(t,{icon:"wechat-pay-line",style:{color:"green"}}),(0,l.Uk)(" 微信扫码 ")])),_:1}),(0,l.Wm)(i,{label:3},{default:(0,l.w5)((()=>[(0,l.Wm)(t,{icon:"alipay-line",style:{color:"#47ade7"}}),(0,l.Uk)(" 支付宝扫码 ")])),_:1})])),_:1},8,["modelValue"])}}};function d(e){e.__source="src/components/PaymentMethod/index.vue"}"function"===typeof d&&d(o);const i=o;var p=i}}]);

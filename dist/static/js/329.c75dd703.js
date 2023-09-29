@@ -1,0 +1,6 @@
+/*!
+ *  build: Vue  Admin Plus
+ *  copyright: vue-admin-beautiful.com
+ *  time: 2023-09-28 17:16:01
+ */
+"use strict";(self["webpackChunkadmin_plus"]=self["webpackChunkadmin_plus"]||[]).push([[329],{70329:function(s,t,e){e.r(t),e.d(t,{default:function(){return w}});var c=e(77669),n=(e(3241),e(95774),e(66252)),a=e(3577);const i={key:0,class:"item"},o={class:"row"},r={class:"content-box"},u={class:"user-box"},p={class:"author"},l=["innerHTML"],d={class:"message"};var v={__name:"comment",props:{topic:{type:Object,default:()=>{}}},setup(s){return(t,e)=>{const v=c.vs;return s.topic?((0,n.wg)(),(0,n.iD)("div",i,[(0,n._)("div",o,[(0,n.Wm)(v,{size:50,src:s.topic.avatar},null,8,["src"]),(0,n._)("div",r,[(0,n._)("div",u,[(0,n._)("div",p,(0,a.zw)(s.topic.author),1),(0,n._)("div",{class:"date",innerHTML:s.topic.dateline},null,8,l)]),(0,n._)("div",d,(0,a.zw)(s.topic.subject)+" "+(0,a.zw)(s.topic.message),1)])])])):(0,n.kq)("",!0)}}};function _(s){s.__source="src/views/topic/components/comment.vue"}var m=e(83744);"function"===typeof _&&_(v);const f=(0,m.Z)(v,[["__scopeId","data-v-72651460"]]);var w=f}}]);

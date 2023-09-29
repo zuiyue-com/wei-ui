@@ -1,0 +1,6 @@
+/*!
+ *  build: Vue  Admin Plus
+ *  copyright: vue-admin-beautiful.com
+ *  time: 2023-09-28 17:16:01
+ */
+"use strict";(self["webpackChunkadmin_plus"]=self["webpackChunkadmin_plus"]||[]).push([[2503],{62503:function(e,n,u){u.r(n),u.d(n,{default:function(){return d}});var a=u(57018),t=(u(3241),u(74367),u(66252)),l=u(2262),r={__name:"index copy",props:{value:{type:[Number,String],default:0},placeholder:{type:String,default:""},min:{type:Number,default:0},max:{type:Number,default:0}},emits:["change"],setup(e,{emit:n}){const u=e,r=(0,l.iH)(u.value);function p(e){n("change",e)}return(0,t.YP)(r,(e=>{n("change",e)})),(n,u)=>{const o=a.EZ;return(0,t.wg)(),(0,t.j4)(o,{modelValue:(0,l.SU)(r),"onUpdate:modelValue":u[0]||(u[0]=e=>(0,l.dq)(r)?r.value=e:null),modelModifiers:{number:!0},placeholder:e.placeholder,type:"number",min:e.min,max:e.max,class:"input-number",onChange:p},{prepend:(0,t.w5)((()=>[(0,t.WI)(n.$slots,"prepend")])),_:3},8,["modelValue","placeholder","min","max"])}}};function p(e){e.__source="src/components/InputNumber/index copy.vue"}var o=u(83744);"function"===typeof p&&p(r);const c=(0,o.Z)(r,[["__scopeId","data-v-29ca501a"]]);var d=c}}]);

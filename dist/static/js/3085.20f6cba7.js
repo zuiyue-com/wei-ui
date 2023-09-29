@@ -1,0 +1,6 @@
+/*!
+ *  build: Vue  Admin Plus
+ *  copyright: vue-admin-beautiful.com
+ *  time: 2023-09-28 17:16:01
+ */
+"use strict";(self["webpackChunkadmin_plus"]=self["webpackChunkadmin_plus"]||[]).push([[3085],{83085:function(e,t,u){u.r(t),u.d(t,{default:function(){return _}});var s=u(86398),r=(u(3241),u(69448),u(57658),u(66252)),n=u(2262),a=u(3577),i=u(30582),c=u(22201);const o={class:"wrap"},d={key:0},p={class:"link"},w={key:1};var k={__name:"wxoauth",setup(e){const{wxlogin:t}=(0,i.L)(),u=(0,c.yj)(),k=(0,c.tv)();return(0,r.bv)((()=>{u.query.token&&t(u.query.token),u.query.redirect?k.push({path:u.query.redirect}):k.push({path:"/"})})),(e,t)=>{const i=s.gi,c=(0,r.up)("router-link");return(0,r.wg)(),(0,r.iD)("div",o,[(0,n.SU)(u).query.message?((0,r.wg)(),(0,r.iD)("div",d,[(0,r.Wm)(i,{type:"danger"},{default:(0,r.w5)((()=>[(0,r.Uk)("登录失败："+(0,a.zw)((0,n.SU)(u).query.message),1)])),_:1}),(0,r._)("div",p,[(0,r.Wm)(c,{to:"/"},{default:(0,r.w5)((()=>[(0,r.Uk)("返回首页")])),_:1})])])):((0,r.wg)(),(0,r.iD)("div",w,[(0,r.Wm)(i,{type:"success"},{default:(0,r.w5)((()=>[(0,r.Uk)("正在登录...")])),_:1})]))])}}};function l(e){e.__source="src/views/index/wxoauth.vue"}var v=u(83744);"function"===typeof l&&l(k);const y=(0,v.Z)(k,[["__scopeId","data-v-3170b027"]]);var _=y}}]);
