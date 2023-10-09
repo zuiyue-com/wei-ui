@@ -143,7 +143,7 @@ use image::GenericImageView;
 fn load_icon() -> Option<Icon> {
     // 如果 ../wei/res/wei.png 存在
     let mut png_path = "../wei/res/wei.png";
-    let path = std::path::Path::new(png_path.clone());
+    let path = std::path::Path::new(png_path);
     if !path.exists() {
         png_path = "./wei.png";
     }
