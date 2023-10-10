@@ -1,5 +1,5 @@
 /*!
  *  build: Vue  Admin Plus
  *  copyright: vue-admin-beautiful.com
- *  time: 2023-09-28 17:16:01
+ *  time: 2023-10-10 18:16:02
  */button[data-v-05c3fac0]{position:relative;z-index:1;padding:.5em 1em;font-family:inherit;font-size:inherit;color:#fff;background-color:#2d3058;border:none;outline:none}button[data-v-05c3fac0]:before{position:absolute;inset:0;z-index:-1;content:"";background-color:#1890ff;transition:transform .25s ease-in-out;transform:scaleY(0);transform-origin:bottom center}button[data-v-05c3fac0]:hover{cursor:pointer}button[data-v-05c3fac0]:hover:before{transform:scaleY(1);transform-origin:center top}
