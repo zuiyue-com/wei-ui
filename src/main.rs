@@ -77,9 +77,55 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     info!("url: {}", url);
 
-    let _webview = WebViewBuilder::new(window)?
-      .with_url(&url)?
-      .build()?;
+
+    let webview = match WebViewBuilder::new(window) {
+        Ok(webview) => {
+            info!("启动webview成功");
+            webview
+        }
+        Err(err) => {
+            info!("启动webview失败,原因：{}", err);
+            return Ok(());
+        }
+    };
+
+    let webview = match webview.with_url(&url) {
+        Ok(webview) => {
+            info!("加载url成功");
+            webview
+        }
+        Err(err) => {
+            info!("加载url失败,原因：{}", err);
+            return Ok(());
+        }
+    };
+
+    let webview = match webview.build() {
+        Ok(webview) => {
+            info!("构建webview成功");
+            webview
+        }
+        Err(err) => {
+            info!("构建webview失败,原因：{}", err);
+            let err = format!("{}", err);
+            if err.contains("WindowsError") || 
+               err.contains("0x80004002") ||
+               err.contains("不支持此接口") {
+                info!("开始安装WebView2 Runtime ");
+                match wei_run::command("./WebView2.exe", vec![]) {
+                    Ok(_) => {
+                        info!("安装WebView2 Runtime成功");
+                        return Ok(());
+                    }
+                    Err(err) => {
+                        info!("安装WebView2 Runtime失败,原因：{}", err);
+                        return Ok(());
+                    }
+                }
+            }
+            return Ok(());
+        }
+    };
   
     info!("启动成功,等待信号");
     event_loop.run(move |event, _, control_flow| {
@@ -91,7 +137,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             event: WindowEvent::CloseRequested,
             ..
         } => {
-            _webview.load_url("about:blank");
+            webview.load_url("about:blank");
             hide("wei-ui", true);
             // *control_flow = ControlFlow::Exit,
         }
