@@ -20,6 +20,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         std::process::exit(1);
     };
 
+    info!("启动右下角托盘");
+    std::thread::spawn(|| {
+        wei_tray::start().unwrap();
+    });
+
     info!("检测服务可用性");
     let server_address = check_server().await;
 
@@ -126,11 +131,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             return Ok(());
         }
     };
-
-    info!("启动右下角托盘");
-    std::thread::spawn(|| {
-        wei_tray::start().unwrap();
-    });
 
     info!("启动成功,等待信号");
     event_loop.run(move |event, _, control_flow| {
