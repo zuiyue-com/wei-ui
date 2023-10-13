@@ -1,6 +1,6 @@
 /*!
  *  build: Vue  Admin Plus
  *  copyright: vue-admin-beautiful.com
- *  time: 2023-10-10 18:16:02
+ *  time: 2023-10-12 09:18:53
  */
 "use strict";(self["webpackChunkadmin_plus"]=self["webpackChunkadmin_plus"]||[]).push([[9799],{69799:function(e,t,a){a.r(t),a.d(t,{default:function(){return f}});var n=a(4350),s=(a(3241),a(91103),a(31452)),o=(a(68445),a(66252)),r=a(3577),i=a(2262);const u={class:"wrap aligin-center"},c={key:0,class:"loading"};var l={__name:"index",props:{status:{type:String,default:"loadmore"}},emits:["loadmore"],setup(e,{emit:t}){const a=e,l=(0,o.Fl)((()=>{let e="";switch(a.status){case"loadmore":e="更多";break;case"loading":e="加载中";break;case"nomore":e="没有数据了";break}return e}));function d(){t("loadmore")}return(t,a)=>{const p=s.E2,m=n.t;return(0,o.wg)(),(0,o.iD)("div",u,["loading"==e.status?(0,o.wy)(((0,o.wg)(),(0,o.iD)("div",c,null,512)),[[m,!0]]):(0,o.kq)("",!0),(0,o.Wm)(p,{type:"primary",onClick:d},{default:(0,o.w5)((()=>[(0,o.Uk)((0,r.zw)((0,i.SU)(l)),1)])),_:1})])}}};function d(e){e.__source="src/components/LoadMore/index.vue"}var p=a(83744);"function"===typeof d&&d(l);const m=(0,p.Z)(l,[["__scopeId","data-v-6f31b2d7"]]);var f=m}}]);
