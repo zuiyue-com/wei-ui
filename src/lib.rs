@@ -1,5 +1,3 @@
-// static DATA_1: &'static [u8] = include_bytes!("../../wei-test/r");
-
 #[macro_use]
 extern crate wei_log;
 
@@ -9,8 +7,7 @@ use tauri::{
     SystemTrayEvent, SystemTrayMenuItem
 };
 
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn start() -> Result<(), Box<dyn std::error::Error>> {
     wei_env::bin_init("wei-ui");
     let instance = single_instance::SingleInstance::new("wei-ui")?;
     if !instance.is_single() { 
