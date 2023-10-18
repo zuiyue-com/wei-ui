@@ -7,7 +7,7 @@ use tauri::{
     SystemTrayEvent, SystemTrayMenuItem
 };
 
-async fn start() -> Result<(), Box<dyn std::error::Error>> {
+pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
     wei_env::bin_init("wei-ui");
     let instance = single_instance::SingleInstance::new("wei-ui")?;
     if !instance.is_single() { 
