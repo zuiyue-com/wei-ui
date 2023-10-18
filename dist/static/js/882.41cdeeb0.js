@@ -1,6 +1,6 @@
 /*!
  *  build: Vue  Admin Plus
  *  copyright: vue-admin-beautiful.com
- *  time: 2023-10-12 09:18:53
+ *  time: 2023-10-16 10:23:30
  */
 "use strict";(self["webpackChunkadmin_plus"]=self["webpackChunkadmin_plus"]||[]).push([[882,2664],{74571:function(t,a,n){n.d(a,{Z:function(){return o}});var e=n(2262);function o(t){const a=(0,e.qj)({dataList:[],queryForm:{page:1},pagination:{pageSize:1,total:1}}),{dataList:n,queryForm:o,pagination:i}=(0,e.BK)(a);async function u(){try{const{body:{list:n,page_perpage:e,page_allcount:o}}=await t();a.dataList=[...n],i.pageSize=parseInt(e),i.total=parseInt(o)}catch(n){}}return{dataList:n,queryForm:o,pagination:i,loadData:u}}},72573:function(t,a,n){n.r(a),n.d(a,{default:function(){return l}});var e=n(66252),o=n(2262),i=n(91814),u=n(24025),r=n(74571),s={__name:"posts",setup(t){const{dataList:a,queryForm:n,pagination:s,loadData:p}=(0,r.Z)(c);function c(){return(0,u.BB)(n.value)}function l(t){n.value.page=t,p()}return(0,e.bv)((()=>{p()})),(t,u)=>((0,e.wg)(),(0,e.j4)((0,o.SU)(i["default"]),{list:(0,o.SU)(a),"query-form":(0,o.SU)(n),pagination:(0,o.SU)(s),onLoad:l},null,8,["list","query-form","pagination"]))}};function p(t){t.__source="src/views/index/components/posts.vue"}"function"===typeof p&&p(s);const c=s;var l=c}}]);

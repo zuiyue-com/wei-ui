@@ -10,11 +10,8 @@ license = "MIT OR Apache-2.0"
 [dependencies]
 wei-env = "0.2.10"
 wei-run = "0.2.4"
-wei-tray = "0.2.5"
+wei-log = "0.2.5"
 single-instance = "0.3"
-wry = "0.32.0"
-image = "0.24.7"
 reqwest = "0.11"
 tokio = { version = "1", features = ["full"] }
-winapi = { version = "0.3", features = ["winbase","tlhelp32","handleapi","wincon","winuser","psapi"] }
-wei-log = "0.2.5"
+tauri = { version = "1.5.2", features = ["system-tray", "icon-ico", "icon-png"] }
