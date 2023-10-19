@@ -19,8 +19,8 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
 
     // 判断当前目录有没有main.rs,如果存在则启动本地服务
     info!("判断打包环境");
-    let mut path = std::env::current_dir()?;
-    let file_path = format!("file://{}/dist/index.html?server_address={}", path.display(), server_address);
+    let mut path = std::env::current_dir().unwrap();
+    let file_path = format!("http://{}/index.html?server_address={}", server_address, server_address);
     let mut url = file_path.clone();
     info!("file_path: {}", file_path);
 
@@ -137,12 +137,12 @@ async fn check_server() -> String {
             Ok(data) => data,
             Err(_) => "1115".to_string()
         };
-        let url = format!("http://127.0.0.1:{}", port);
+        let url = format!("http://127.0.0.1:{}/version", port);
         
         match request_server(&url).await.as_str() {
             "wei-server" => {
                 info!("访问本地服务器成功！");
-                return url.replace("http://", "");
+                return url.replace("http://", "").replace("/version", "");
             }
             _ => {
                 info!("访问本地服务器 {} 失败", url);

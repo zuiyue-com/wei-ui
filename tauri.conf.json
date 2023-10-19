@@ -12,13 +12,12 @@
                 "../wei/res/wei.ico"
             ]
         },
-        "windows": [
-            {
+        "windows": [{
+            "url": "http://127.0.0.1:1115",
             "title": "Wei",
             "resizable": true,
             "maximized": true
-            }
-        ],
+        }],
         "systemTray": {
             "iconPath": "../wei/res/wei.ico",
             "iconAsTemplate": true
