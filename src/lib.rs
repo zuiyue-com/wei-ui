@@ -87,33 +87,30 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
         })
         .system_tray(SystemTray::new().with_menu(tray_menu))
         .on_system_tray_event(|app, event| match event {
-        SystemTrayEvent::LeftClick {
-            position: _,
-            size: _,
-            ..
-        } => {
-            let window = app.get_window("main").unwrap();
-            window.show().unwrap();
-        }
         SystemTrayEvent::RightClick {
             position: _,
             size: _,
             ..
         } => {
         }
+        SystemTrayEvent::LeftClick {
+            position: _,
+            size: _,
+            ..
+        } => {
+            show_window(&app);
+        }
         SystemTrayEvent::DoubleClick {
             position: _,
             size: _,
             ..
         } => {
-            let window = app.get_window("main").unwrap();
-            window.show().unwrap();
+            show_window(&app);
         }
         SystemTrayEvent::MenuItemClick { id, .. } => {
             match id.as_str() {
             "show" => {
-                let window = app.get_window("main").unwrap();
-                window.show().unwrap();
+                show_window(&app);                
             }
             "exit" => {
                 wei_env::stop();
@@ -128,6 +125,12 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
         .expect("error while running tauri application");
           
     Ok(())
+}
+
+fn show_window(app: &tauri::AppHandle) {
+    let window = app.get_window("main").unwrap();
+    window.show().unwrap();
+    window.set_focus().unwrap();
 }
 
 async fn check_server() -> String {
