@@ -63,7 +63,7 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(exit);
     
-    tauri::Builder::default()
+    match tauri::Builder::default()
         .setup(move |app| {
             let main_window = app.get_window("main").unwrap();
 
@@ -121,8 +121,12 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
         }
         _ => {}
         })
-        .run(tauri::generate_context!("./tauri.conf.json"))
-        .expect("error while running tauri application");
+    .run(tauri::generate_context!("./tauri.conf.json")) {
+        Ok(_) => {}
+        Err(e) => {
+            info!("tauri: {}", e);
+        }
+    }
           
     Ok(())
 }
