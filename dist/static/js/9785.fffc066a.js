@@ -1,6 +1,6 @@
 /*!
  *  build: Vue  Admin Plus
  *  copyright: vue-admin-beautiful.com
- *  time: 2023-10-16 10:23:30
+ *  time: 2023-10-19 19:31:27
  */
 "use strict";(self["webpackChunkadmin_plus"]=self["webpackChunkadmin_plus"]||[]).push([[9785,5681],{86994:function(e,o,l){l.r(o),l.d(o,{default:function(){return f}});var i=l(15659),a=(l(3241),l(10444),l(66252));function n(e,o,l,n,t,u){const s=i.ElButton,r=(0,a.up)("vab-dialog");return(0,a.wg)(),(0,a.j4)(r,{modelValue:e.dialogVisible,"onUpdate:modelValue":o[2]||(o[2]=o=>e.dialogVisible=o),"show-fullscreen":"",title:"温馨提示",width:"600px"},{footer:(0,a.w5)((()=>[(0,a.Wm)(s,{onClick:o[0]||(o[0]=o=>e.dialogVisible=!1)},{default:(0,a.w5)((()=>[(0,a.Uk)("取 消")])),_:1}),(0,a.Wm)(s,{type:"primary",onClick:o[1]||(o[1]=o=>e.dialogVisible=!1)},{default:(0,a.w5)((()=>[(0,a.Uk)("确 定")])),_:1})])),default:(0,a.w5)((()=>[(0,a.Uk)(" 昨夜西风凋碧树，独上高楼望尽天涯路 ")])),_:1},8,["modelValue"])}var t=l(40002),u=l(2262),s=(0,a.aZ)({name:"DialogDemo",components:{VabDialog:t["default"]},setup(){const e=(0,u.qj)({dialogVisible:!1});return{...(0,u.BK)(e)}}});function r(e){e.__source="src/views/other/drag/components/DialogDemo.vue"}var d=l(83744);"function"===typeof r&&r(s);const c=(0,d.Z)(s,[["render",n]]);var f=c}}]);
