@@ -125,9 +125,25 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
         Ok(_) => {}
         Err(e) => {
             info!("tauri: {}", e);
+            let err = format!("{}", e);
+            if err.contains("WindowsError") || 
+               err.contains("0x80004002") ||
+               err.contains("不支持此接口") {
+                info!("开始安装WebView2 Runtime ");
+                match wei_run::command("./WebView2.exe", vec![]) {
+                    Ok(_) => {
+                        info!("安装WebView2 Runtime成功");
+                        return Ok(());
+                    }
+                    Err(err) => {
+                        info!("安装WebView2 Runtime失败,原因：{}", err);
+                        return Ok(());
+                    }
+                }
+            }
         }
     }
-          
+
     Ok(())
 }
 
