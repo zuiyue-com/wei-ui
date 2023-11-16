@@ -7,6 +7,10 @@ documentation = "https://github.com/zuiyue-com/wei-ui"
 homepage = "https://github.com/zuiyue-com/wei-ui"
 license = "MIT OR Apache-2.0"
 
+[profile.dev]
+incremental = true
+opt-level = 0
+
 [dependencies]
 wei-env = "0.2.13"
 wei-run = "0.2.4"
@@ -15,3 +19,4 @@ single-instance = "0.3"
 reqwest = "0.11"
 tokio = { version = "1", features = ["full"] }
 tauri = { version = "1.5.2", features = ["system-tray", "icon-ico", "icon-png"] }
+winrt-notification = "0.5.1"

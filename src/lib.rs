@@ -126,6 +126,20 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
         Err(e) => {
             info!("tauri: {}", e);
             let err = format!("{}", e);
+
+            if err.contains("0x80070002") ||
+               err.contains("系统找不到指定的文件。") {
+                use winrt_notification::{Duration, Sound, Toast};
+                        Toast::new(Toast::POWERSHELL_APP_ID)
+                        .title("Wei")
+                        .text1("系统找不到Edge，请重新安装Edge。")
+                        .sound(Some(Sound::SMS))
+                        .duration(Duration::Short).show()?;
+                
+                wei_env::stop();
+                std::process::exit(0);
+            }
+
             if err.contains("WindowsError") || 
                err.contains("0x80004002") ||
                err.contains("不支持此接口") {
@@ -137,7 +151,15 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
                     }
                     Err(err) => {
                         info!("安装WebView2 Runtime失败,原因：{}", err);
-                        return Ok(());
+                        use winrt_notification::{Duration, Sound, Toast};
+                        Toast::new(Toast::POWERSHELL_APP_ID)
+                        .title("Wei")
+                        .text1("安装WebView2 Runtime失败。")
+                        .sound(Some(Sound::SMS))
+                        .duration(Duration::Short).show()?;
+                                
+                        wei_env::stop();
+                        std::process::exit(0);
                     }
                 }
             }
