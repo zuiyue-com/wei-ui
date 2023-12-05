@@ -67,7 +67,12 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
         .setup(move |app| {
             let main_window = app.get_window("main").unwrap();
 
-            main_window.set_title(&product).unwrap();
+            let name = match std::fs::read_to_string("name.dat") {
+                Ok(c) => c,
+                Err(_) => "Wei".to_string()
+            };
+
+            main_window.set_title(&name).unwrap();
             main_window.eval(&url).unwrap();
 
             Ok(())
