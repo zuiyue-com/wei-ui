@@ -5,21 +5,20 @@
             "targets": "all",
             "identifier": "com.tauri.dev",
             "icon": [
-                "../wei/res/32x32.png",
-                "../wei/res/128x128.png",
-                "../wei/res/128x128@2x.png",
-                "../wei/res/wei.icns",
-                "../wei/res/wei.ico"
+                "../wei/res/bear_32x32.png",
+                "../wei/res/bear_128x128.png",
+                "../wei/res/bear_128x128@2x.png",
+                "../wei/res/bear.ico"
             ]
         },
         "windows": [{
             "url": "http://127.0.0.1:1115",
-            "title": "Wei",
+            "title": "Bear",
             "resizable": true,
             "maximized": true
         }],
         "systemTray": {
-            "iconPath": "../wei/res/wei.ico",
+            "iconPath": "../wei/res/bear.ico",
             "iconAsTemplate": true
         }
     }
