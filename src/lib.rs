@@ -54,11 +54,13 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
     println!("{}, {}", product, version);
 
     let show = CustomMenuItem::new("show".to_string(), "显示界面");
+    let website = CustomMenuItem::new("website".to_string(), "访问官网");
     let version = CustomMenuItem::new("version".to_string(), format!("版本: {}", version));
     let exit = CustomMenuItem::new("exit".to_string(), "退出");
     
     let tray_menu = SystemTrayMenu::new()
         .add_item(show)
+        .add_item(website)
         .add_item(version)
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(exit);
@@ -116,6 +118,27 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
             match id.as_str() {
             "show" => {
                 show_window(&app);                
+            }
+            "website" => {
+                match std::fs::read_to_string("server.dat") {
+                    Ok(data) => {
+                        let data = data.replace("saas", "www");
+                        match webbrowser::open(&data) {
+                            Ok(_) => {}
+                            Err(err) => {
+                                info!("打开网页失败,原因：{}", err);
+                            }
+                        }
+                    }
+                    Err(_) => {
+                        match webbrowser::open("https://www.zuiyue.com") {
+                            Ok(_) => {}
+                            Err(err) => {
+                                info!("打开网页失败,原因：{}", err);
+                            }
+                        }
+                    }
+                }
             }
             "exit" => {
                 wei_env::stop();
