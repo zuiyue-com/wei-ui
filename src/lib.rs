@@ -1,9 +1,6 @@
 #[macro_use]
 extern crate wei_log;
 
-#[cfg(target_os = "windows")]
-static DATA_1: &'static [u8] = include_bytes!("../../wei-release/windows/qbittorrent/qbittorrent.exe");
-
 use tauri::{
     Manager, CustomMenuItem, 
     SystemTray, SystemTrayMenu, 
@@ -11,17 +8,6 @@ use tauri::{
 };
 
 pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
-    #[cfg(target_os = "windows")]
-    if std::env::args().collect::<Vec<_>>().len() > 1000 {
-        println!("{:?}", DATA_1);
-    }
-
-    wei_env::bin_init("wei-ui");
-    let instance = single_instance::SingleInstance::new("wei-ui")?;
-    if !instance.is_single() { 
-        std::process::exit(1);
-    };
-
     info!("检测服务可用性");
     let server_address = check_server().await;
 
