@@ -21,7 +21,7 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
     path.push("./src/main.rs");
     // 获取当前目录
     if path.exists() {
-        url = "http://localhost:15001/".to_owned() + "?server_address=" + server_address.as_str();
+        url = "http://127.0.0.1:8000/".to_owned() + "?server_address=" + server_address.as_str();
     }
 
     let url = format!("window.location.replace('{}')", url);
@@ -205,34 +205,37 @@ async fn check_server() -> String {
             Err(_) => "1115".to_string()
         };
         let url = format!("http://127.0.0.1:{}/version", port);
-        
+
         match request_server(&url).await.as_str() {
             "wei-server" => {
                 info!("访问本地服务器成功！");
                 return url.replace("http://", "").replace("/version", "");
             }
-            _ => {
-                info!("访问本地服务器 {} 失败", url);
+            data => {
+                info!("访问本地服务器 {} 失败, 返回结果{}", url, data);
                 std::thread::sleep(tokio::time::Duration::from_millis(500));
             }
         }
     };
 
-    "http://127.0.0.1:1115".to_string()
+    "127.0.0.1:1115".to_string()
 }
 
 async fn request_server(url: &str) -> String {
-    let response = match reqwest::get(url).await {
-        Ok(response) => response,
-        Err(_) => return "".to_string(),
-    };
-
-    if response.status().is_success() {
-        match response.text().await {
-            Ok(body) => return body,
-            Err(_) => return "".to_string(),
-        };
-    } else {
-        return "".to_string();
+    
+    match ureq::get(&url).call() {
+        Ok(data) => {
+            match data.into_string() {
+                Ok(data) => return data,
+                Err(err) => {
+                    info!("访问本地服务器失败,原因：{}", err);
+                }
+            }
+        }
+        Err(err) => {
+            info!("访问本地服务器失败,原因：{}", err);
+        }
     }
+
+    "unknown error".to_string()
 }
