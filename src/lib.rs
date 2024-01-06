@@ -114,7 +114,14 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
                 show_window(&app);                
             }
             "website" => {
-                match std::fs::read_to_string("server.dat") {
+                let server_dat;
+                if std::path::Path::new("dev.dat").exists() {
+                    server_dat = "dev.dat";
+                } else {
+                    server_dat = "server.dat";
+                }
+
+                match std::fs::read_to_string(&server_dat) {
                     Ok(data) => {
                         let data = data.replace("saas", "www");
                         match webbrowser::open(&data) {
