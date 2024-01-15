@@ -30,7 +30,8 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let product_file = "product.dat";
     let version_file = "version.dat";
     let mut product = "Wei".to_string();
-    let mut version = "0.3.3".to_string();
+    let mut version = "1.1.3".to_string();
+    let version_title;
 
     if std::path::Path::new(&product_file).exists() &&
        std::path::Path::new(&version_file).exists() {
@@ -44,6 +45,8 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
             Err(_) => "".to_string()
         };
     }
+
+    version_title = version.clone();
 
     println!("{}, {}", product, version);
 
@@ -67,6 +70,8 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
                 Ok(c) => c,
                 Err(_) => "Wei".to_string()
             };
+
+            let name = format!("{} {}", name, version_title);
 
             main_window.set_title(&name).unwrap();
             main_window.eval(&url).unwrap();
