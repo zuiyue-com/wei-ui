@@ -1,7 +1,7 @@
 use wei_ui::start;
 
 #[cfg(target_os = "windows")]
-static DATA_1: &'static [u8] = include_bytes!("../../wei-release/windows/qbittorrent/qbittorrent.exe");
+static DATA_1: &'static [u8] = include_bytes!("../../wei-release/windows/san/san.txt");
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
