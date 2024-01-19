@@ -66,12 +66,20 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
         .setup(move |app| {
             let main_window = app.get_window("main").unwrap();
 
-            let name = match std::fs::read_to_string("name.dat") {
+            let mut name = match std::fs::read_to_string("name.dat") {
                 Ok(c) => c,
                 Err(_) => "Wei".to_string()
             };
 
-            let name = format!("{} {}", name, version_title);
+            if std::path::Path::new("dev.dat").exists() {
+                let url = match std::fs::read_to_string("dev.dat") {
+                    Ok(c) => c,
+                    Err(_) => "无法读取dev.dat文件".into()
+                };
+                name = format!("开发版本：{}", url);
+            } else {
+                name = format!("{} {}", name, version_title);
+            }
 
             main_window.set_title(&name).unwrap();
             main_window.eval(&url).unwrap();
