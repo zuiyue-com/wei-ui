@@ -76,7 +76,7 @@ pub async fn start() -> Result<(), Box<dyn std::error::Error>> {
                     Ok(c) => c,
                     Err(_) => "无法读取dev.dat文件".into()
                 };
-                name = format!("开发版本：{}", url);
+                name = format!("开发版本：{} {} {}", url, name, version_title);
             } else {
                 name = format!("{} {}", name, version_title);
             }
