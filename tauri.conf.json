@@ -13,6 +13,7 @@
         },
         "windows": [{
             "url": "http://127.0.0.1:1115",
+            "userAgent": "biebiexiongDesktop",
             "title": "Bear",
             "resizable": true,
             "maximized": true
