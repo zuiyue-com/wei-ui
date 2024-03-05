@@ -3,7 +3,7 @@
         "bundle": {
             "active": true,
             "targets": "all",
-            "identifier": "com.tauri.dev",
+            "identifier": "com.tauri.wei",
             "icon": [
                 "../wei/res/bear_32x32.png",
                 "../wei/res/bear_128x128.png",

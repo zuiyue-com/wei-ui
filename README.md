@@ -1,10 +1,4 @@
-# wei-ui
+# Windows 7 安装
 
-- [x] 自动全屏，或者固定屏幕大小，或者根据屏幕的大小设定软件界面大小，自动居中到屏幕中间
-- [x] 点击关闭按钮隐藏界面，wei-tray 显示主界面
-- [x] 应用程序图标
-
-- [x] 首页 : (首页->仓库->右下角的图片banner)，镜像介绍（物料源->物料市场），智能推荐 
-- [ ] 镜像 : 镜像管理（组件->表格->综合表格），下载进度（组件->表格->列表）
-- [ ] 模型 : 模型管理（组件->表格->综合表格），下载进度（组件->表格->列表）
-- [ ] 设置 : 用户设置
+- https://download.microsoft.com/download/4/E/8/4E864B31-7756-4639-8716-0379F6435016/Windows6.1-KB3080149-x64.msu
+- https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d4cbb4b9-ca42-4079-8b48-e61d326ce69d/MicrosoftEdgeWebView2RuntimeInstallerX64.exe
