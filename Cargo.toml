@@ -13,7 +13,7 @@ opt-level = 0
 
 [dependencies]
 wei-env = "0.2.13"
-wei-run = "0.2.4"
+wei-run = "0.3"
 wei-log = "0.2.10"
 wei-windows = { path = "../wei-windows" }
 single-instance = "0.3"
