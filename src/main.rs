@@ -5,7 +5,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     wei_windows::init();
 
     wei_env::bin_init("wei-ui");
-    let instance = single_instance::SingleInstance::new("wei-ui")?;
+    let instance = wei_single::SingleInstance::new("wei-ui")?;
     if !instance.is_single() { 
         std::process::exit(1);
     };
